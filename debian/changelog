@@ -1,0 +1,8 @@
+pgtrack (1.0.0-1) unstable; urgency=medium
+
+  * Initial release (Pure SQL)
+  * Schema-based automatic tracking
+  * Revert functions for all scenarios
+  * Query and administrative functions
+
+ -- pgtrack contributors <dev@example.com>  Wed, 05 Feb 2025 12:00:00 +0000

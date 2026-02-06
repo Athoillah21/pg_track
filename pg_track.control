@@ -1,0 +1,7 @@
+# pg_track extension
+comment = 'Version control and change tracking for PostgreSQL tables'
+default_version = '1.0'
+module_pathname = '$libdir/pg_track'
+relocatable = false
+schema = pgtrack
+requires = 'plpgsql'

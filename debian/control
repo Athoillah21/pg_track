@@ -1,0 +1,37 @@
+Source: pg-track
+Section: database
+Priority: optional
+Maintainer: pg_track contributors <dev@example.com>
+Build-Depends: debhelper-compat (= 13),
+               postgresql-server-dev-all
+Standards-Version: 4.6.0
+Homepage: https://github.com/yourusername/pg_track
+Rules-Requires-Root: no
+
+Package: postgresql-15-pg-track
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, postgresql-15
+Description: PostgreSQL 15 extension for version control and change tracking
+ pg_track is a PostgreSQL extension that provides automatic version control
+ for database tables.
+
+Package: postgresql-16-pg-track
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, postgresql-16
+Description: PostgreSQL 16 extension for version control and change tracking
+ pg_track is a PostgreSQL extension that provides automatic version control
+ for database tables.
+
+Package: postgresql-17-pg-track
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, postgresql-17
+Description: PostgreSQL 17 extension for version control and change tracking
+ pg_track is a PostgreSQL extension that provides automatic version control
+ for database tables.
+
+Package: postgresql-18-pg-track
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, postgresql-18
+Description: PostgreSQL 18 extension for version control and change tracking
+ pg_track is a PostgreSQL extension that provides automatic version control
+ for database tables.

@@ -1,0 +1,32 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+
+# Supported PostgreSQL versions
+PG_VERSIONS = 15 16 17 18
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	@for v in $(PG_VERSIONS); do \
+		if [ -x /usr/lib/postgresql/$$v/bin/pg_config ]; then \
+			echo "Building for PostgreSQL $$v..."; \
+			$(MAKE) clean PG_CONFIG=/usr/lib/postgresql/$$v/bin/pg_config || true; \
+			$(MAKE) PG_CONFIG=/usr/lib/postgresql/$$v/bin/pg_config; \
+			mkdir -p build-$$v; \
+			cp src/pg_track.so build-$$v/ 2>/dev/null || true; \
+		fi; \
+	done
+
+override_dh_auto_install:
+	@for v in $(PG_VERSIONS); do \
+		if [ -x /usr/lib/postgresql/$$v/bin/pg_config ]; then \
+			echo "Installing for PostgreSQL $$v..."; \
+			$(MAKE) install DESTDIR=$(CURDIR)/debian/postgresql-$$v-pg-track PG_CONFIG=/usr/lib/postgresql/$$v/bin/pg_config; \
+		fi; \
+	done
+
+override_dh_auto_clean:
+	$(MAKE) clean PG_CONFIG=/usr/lib/postgresql/15/bin/pg_config 2>/dev/null || true
+	rm -rf build-*

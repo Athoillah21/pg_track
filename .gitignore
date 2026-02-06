@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+*.o
+*.obj
+*.so
+*.dll
+lib/
+build/
+
+# Next.js
+dashboard/.next/
+dashboard/out/
+
+# Environment files (contain secrets)
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Keep .env.example
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Package manager locks (optional - uncomment if you want to ignore)
+# package-lock.json
+# yarn.lock
+
+# Debian/RPM build artifacts
+*.deb
+*.rpm
+*.buildinfo
+*.changes
+debian/.debhelper/
+debian/pg_track/
+
+# Test files
+*.test.js
+*.spec.js
+coverage/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
