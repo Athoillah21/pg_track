@@ -4,12 +4,14 @@ import { useEffect, useState, useTransition } from "react";
 import { getConnections, saveConnection, deleteConnection, setActiveConnection, ConnectionConfig } from "@/actions/connection";
 import { Plug, Plus, Trash2, Database, ShieldCheck, Globe, CheckCircle2, X, Key } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/toast";
 
 export default function ConnectPage() {
     const [connections, setConnections] = useState<ConnectionConfig[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
+    const { addToast } = useToast();
 
     // Password Modal State
     const [passwordModal, setPasswordModal] = useState<{ isOpen: boolean; connectionId: string; connectionName: string }>({
@@ -54,8 +56,17 @@ export default function ConnectPage() {
                 setFormData({ ...formData, name: "", host: "", username: "", password: "", database: "" });
                 loadConnections();
                 router.refresh();
+                addToast({
+                    type: "success",
+                    title: "Connection saved",
+                    message: `"${formData.name}" has been added to your connections.`
+                });
             } else {
-                alert("Failed to save: " + res.error);
+                addToast({
+                    type: "error",
+                    title: "Failed to save connection",
+                    message: res.error
+                });
             }
         });
     }
@@ -82,10 +93,21 @@ export default function ConnectPage() {
             const res = await setActiveConnection(passwordModal.connectionId, connectPassword);
             if (res.success) {
                 closePasswordModal();
+                addToast({
+                    type: "success",
+                    title: "Connected successfully",
+                    message: `Now connected to "${passwordModal.connectionName}"`
+                });
                 router.refresh();
                 router.push('/');
             } else {
                 setConnectError(res.error || "Connection failed");
+                addToast({
+                    type: "error",
+                    title: "Connection failed",
+                    message: res.error || "Unable to connect to the database",
+                    duration: 8000
+                });
             }
         });
     }
