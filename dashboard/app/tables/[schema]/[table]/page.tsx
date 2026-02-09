@@ -4,7 +4,7 @@ import { HistoryList } from "@/components/history-list";
 import { TableFilter } from "@/components/table-filter";
 import { Database, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +21,14 @@ interface PageProps {
 export default async function TableHistoryPage({ params, searchParams }: PageProps) {
   const { schema, table } = await params;
   const { pk } = await searchParams;
-  const history = await getTableHistory(schema, table, 100, pk);
+
+  let history;
+  try {
+    history = await getTableHistory(schema, table, 100, pk);
+  } catch (error) {
+    // If fetching fails (likely due to no connection), redirect to connect page
+    redirect("/connect");
+  }
 
   return (
     <div className="space-y-6">

@@ -29,8 +29,8 @@ export default function RootLayout({
             <body className={inter.className}>
                 <ThemeProvider
                     attribute="class"
-                    defaultTheme="system"
-                    enableSystem
+                    defaultTheme="light"
+                    enableSystem={false}
                     disableTransitionOnChange
                 >
                     <ToastProvider>

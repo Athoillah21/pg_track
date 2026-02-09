@@ -3,7 +3,7 @@
 import { useEffect, useState, useTransition } from "react";
 import { getConnections, saveConnection, deleteConnection, setActiveConnection, ConnectionConfig } from "@/actions/connection";
 import { Plug, Plus, Trash2, Database, ShieldCheck, Globe, CheckCircle2, X, Key } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/toast";
 
 export default function ConnectPage() {
@@ -33,9 +33,21 @@ export default function ConnectPage() {
         ssl_mode: "disable"
     });
 
+    const searchParams = useSearchParams();
+
     useEffect(() => {
         loadConnections();
-    }, []);
+        if (searchParams.get("disconnected") === "true") {
+            addToast({
+                type: "success",
+                title: "Disconnected",
+                message: "You have been successfully disconnected.",
+                duration: 3000
+            });
+            // Clear the query param
+            router.replace("/connect");
+        }
+    }, [searchParams]);
 
     async function loadConnections() {
         try {

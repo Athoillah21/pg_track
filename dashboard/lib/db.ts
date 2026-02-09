@@ -54,8 +54,12 @@ export const query = async (text: string, params?: any[]) => {
     const res = await pool.query(text, params);
     const duration = Date.now() - start;
     return res;
-  } catch (error) {
-    console.error('TARGET DATABASE ERROR:', error);
+  } catch (error: any) {
+    // Don't log expected errors (like missing connection) to avoid console noise
+    if (error.message !== "No active database connection selected." &&
+      error.message !== "Database credentials not found. Please reconnect.") {
+      console.error('TARGET DATABASE ERROR:', error);
+    }
     throw error;
   }
 };

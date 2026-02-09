@@ -44,7 +44,7 @@ export function ConnectionStatus() {
         startTransition(async () => {
             await clearActiveConnection();
             setInfo(null);
-            router.refresh();
+            router.push('/connect?disconnected=true');
         });
     }
 
