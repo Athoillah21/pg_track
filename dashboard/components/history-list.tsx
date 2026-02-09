@@ -12,6 +12,12 @@ interface HistoryListProps {
 
 export function HistoryList({ initialHistory }: HistoryListProps) {
     const [history, setHistory] = useState(initialHistory);
+
+    // Sync state with props when initialHistory changes (e.g. after filtering)
+    useEffect(() => {
+        setHistory(initialHistory);
+    }, [initialHistory]);
+
     const [isPending, startTransition] = useTransition();
     // Local state to prevent stale UI during transition
     const router = useRouter();
