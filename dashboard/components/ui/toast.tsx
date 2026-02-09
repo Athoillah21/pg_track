@@ -68,34 +68,53 @@ function ToastItem({ toast, onClose }: { toast: Toast; onClose: () => void }) {
         }
     }, [toast.duration, onClose]);
 
-    const icons = {
-        success: <CheckCircle2 className="w-5 h-5 text-green-500" />,
-        error: <AlertCircle className="w-5 h-5 text-red-500" />,
-        warning: <AlertTriangle className="w-5 h-5 text-yellow-500" />,
-        info: <Info className="w-5 h-5 text-blue-500" />,
+    const styles = {
+        success: {
+            bg: "bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800",
+            icon: <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />,
+            title: "text-green-900 dark:text-green-100",
+            message: "text-green-700 dark:text-green-300",
+            close: "text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-200"
+        },
+        error: {
+            bg: "bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800",
+            icon: <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />,
+            title: "text-red-900 dark:text-red-100",
+            message: "text-red-700 dark:text-red-300",
+            close: "text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200"
+        },
+        warning: {
+            bg: "bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800",
+            icon: <AlertTriangle className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />,
+            title: "text-yellow-900 dark:text-yellow-100",
+            message: "text-yellow-700 dark:text-yellow-300",
+            close: "text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-200"
+        },
+        info: {
+            bg: "bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800",
+            icon: <Info className="w-5 h-5 text-blue-600 dark:text-blue-400" />,
+            title: "text-blue-900 dark:text-blue-100",
+            message: "text-blue-700 dark:text-blue-300",
+            close: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
+        },
     };
 
-    const bgColors = {
-        success: "bg-green-500/10 border-green-500/20",
-        error: "bg-red-500/10 border-red-500/20",
-        warning: "bg-yellow-500/10 border-yellow-500/20",
-        info: "bg-blue-500/10 border-blue-500/20",
-    };
+    const style = styles[toast.type];
 
     return (
         <div
-            className={`${bgColors[toast.type]} bg-card border rounded-lg shadow-lg p-4 flex items-start gap-3 animate-in slide-in-from-right-full duration-300`}
+            className={`${style.bg} border rounded-lg shadow-lg p-4 flex items-start gap-3 animate-in slide-in-from-right-full duration-300`}
         >
-            {icons[toast.type]}
+            {style.icon}
             <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm text-foreground">{toast.title}</p>
+                <p className={`font-semibold text-sm ${style.title}`}>{toast.title}</p>
                 {toast.message && (
-                    <p className="text-xs text-muted-foreground mt-0.5 break-words">{toast.message}</p>
+                    <p className={`text-xs mt-0.5 break-words ${style.message}`}>{toast.message}</p>
                 )}
             </div>
             <button
                 onClick={onClose}
-                className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                className={`${style.close} transition-colors shrink-0`}
             >
                 <X className="w-4 h-4" />
             </button>
