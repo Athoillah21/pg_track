@@ -1,10 +1,31 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { Suspense, useEffect, useState, useTransition } from "react";
 import { getConnections, saveConnection, deleteConnection, setActiveConnection, ConnectionConfig } from "@/actions/connection";
 import { Plug, Plus, Trash2, Database, ShieldCheck, Globe, CheckCircle2, X, Key } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/toast";
+
+function DisconnectNotifier() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const { addToast } = useToast();
+
+    useEffect(() => {
+        if (searchParams.get("disconnected") === "true") {
+            addToast({
+                type: "success",
+                title: "Disconnected",
+                message: "You have been successfully disconnected.",
+                duration: 3000
+            });
+            // Clear the query param
+            router.replace("/connect");
+        }
+    }, [searchParams, addToast, router]);
+
+    return null;
+}
 
 export default function ConnectPage() {
     const [connections, setConnections] = useState<ConnectionConfig[]>([]);
@@ -33,21 +54,9 @@ export default function ConnectPage() {
         ssl_mode: "disable"
     });
 
-    const searchParams = useSearchParams();
-
     useEffect(() => {
         loadConnections();
-        if (searchParams.get("disconnected") === "true") {
-            addToast({
-                type: "success",
-                title: "Disconnected",
-                message: "You have been successfully disconnected.",
-                duration: 3000
-            });
-            // Clear the query param
-            router.replace("/connect");
-        }
-    }, [searchParams]);
+    }, []);
 
     async function loadConnections() {
         try {
@@ -132,6 +141,9 @@ export default function ConnectPage() {
 
     return (
         <div className="max-w-5xl mx-auto space-y-8">
+            <Suspense fallback={null}>
+                <DisconnectNotifier />
+            </Suspense>
             <div>
                 <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
                     <Plug className="w-6 h-6 text-primary" />
